@@ -1,0 +1,8 @@
+;
+;	source generated packfile
+;
+;!runtime=hsp3c.hrt
+;!name=gdi8001s
+;!icon=gdi8001.ico
+;!hide=1
++start.ax
