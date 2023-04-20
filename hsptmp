@@ -3,14 +3,14 @@ buffer 2,1280,720
 color 240,255,165
 boxf
 color 0,0,0
-boxf 0,0,640,399
-bgscr 1,640,480,2
+boxf 0,0,719,479
+bgscr 1,720,480,2
 //dialog hwnd
 RunEmu hwnd,hdc
 mes stat&1
 gsel 2,0
 xpos4middling=(ginfo(12)/2)-(787/2)
-ypos4middling=400+(((ginfo(13)-400)/2)-(247/2))
+ypos4middling=480+(((ginfo(13)-480)/2)-(247/2))+3
 /*oncmd gosub *kmt,0x201
 oncmd gosub *kmt,0x202*/
 #include "hsp3c.as"
@@ -29,7 +29,7 @@ bgscr 0,ginfo(20),ginfo(21),0,0,0
 gsel 0,0
 oncmd gosub *kmt,0x100
 oncmd gosub *kmt,0x101
-oncmd gosub *kmt,0x200
+oncmd gosub *kmt_,0x200
 title "GDI8001S"
 gsel 2,0
 
@@ -210,22 +210,27 @@ repeat
 redraw 0
 gsel 2,0
 pos 0,0
-gzoom 640,400,1,0,0,640,480,1
+gzoom 720,480,1,0,0,720,480,0
 gsel 0,0
 pos 0,0
-gzoom ginfo(12),ginfo(13),2,0,0,1280,720,1
+gzoom ginfo(12),ginfo(13),2,0,0,1280,720,0
 redraw 1
 await
 loop
 stop
 *kmt
 return CtlEmulator(iparam,wparam,lparam)
+*kmt_
+mx=((((lparam>>(16*0))&0xFFFF)*((1280000)/ginfo(12)))/1000)
+my=((((lparam>>(16*1))&0xFFFF)*((720000)/ginfo(13)))/1000)
+if mx<720 and my<480{return CtlEmulator(iparam,wparam,(mx<<(16*0))|(my<<(16*1)))}
+return
 
 *lbtdown
 keysizex=40:keysizey=40:keycnts=0:keycntst=0:keycntsx=14,13,14,11,1:keycntsxx=20,20,0,15,80,120:keycntsprev=0
 mx=((((lparam>>(16*0))&0xFFFF)*((1280000)/ginfo(12)))/1000)
 my=((((lparam>>(16*1))&0xFFFF)*((720000)/ginfo(13)))/1000)
-if mx<640 and my<400{goto *kmt}
+if mx<720 and my<480{return CtlEmulator(iparam,wparam,(mx<<(16*0))|(my<<(16*1)))}
 mx-=xpos4middling
 my-=ypos4middling
 keycode=-1
@@ -258,7 +263,7 @@ return
 keysizex=40:keysizey=40:keycnts=0:keycntst=0:keycntsx=14,13,14,11,1:keycntsxx=20,20,0,15,80,120:keycntsprev=0
 mx=((((lparam>>(16*0))&0xFFFF)*((1280000)/ginfo(12)))/1000)
 my=((((lparam>>(16*1))&0xFFFF)*((720000)/ginfo(13)))/1000)
-if mx<640 and my<400{goto *kmt}
+if mx<720 and my<480{return CtlEmulator(iparam,wparam,(mx<<(16*0))|(my<<(16*1)))}
 mx-=xpos4middling
 my-=ypos4middling
 keycode=-1
