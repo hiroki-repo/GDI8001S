@@ -74,12 +74,16 @@ oncmd gosub *kmt,0x202*/
 
 #define WM_LBUTTONDOWN   $0201
 #define WM_LBUTTONUP     $0202
-objsize 128,24,0
+objsize 64,24,0
 pos 530+xpos4middling,ypos4middling
 button gosub "Reset",*resetgdi8001
-pos 660+xpos4middling,ypos4middling
+pos 595+xpos4middling,ypos4middling
 button gosub "Load CMT",*popupcloadwin
-title "GDI8001 Keyboard"
+pos 660+xpos4middling,ypos4middling
+button gosub "PCG",*Pcgde
+pos 725+xpos4middling,ypos4middling
+button gosub "GreenDisplay",*Greendsiplayde
+title "GDI8001S"
 oncmd gosub *lbtdown,WM_LBUTTONDOWN
 oncmd gosub *lbtup,WM_LBUTTONUP
 oncmd gosub *OnTouch, WM_TOUCH		; メッセージ割り込み
@@ -305,4 +309,11 @@ if stat4fs=1{SetCMTFile fname4data}
 return
 *resetgdi8001
 ResetEmu
+return
+
+*Pcgde
+SetPCG (GetPCG()&1)=0
+return
+*Greendsiplayde
+SetGreenDisplay (GetGreenDisplay()&1)=0
 return
